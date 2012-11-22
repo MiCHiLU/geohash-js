@@ -5,37 +5,38 @@
 
 ( (window) ->
 
+  top    = 0
+  right  = 1
+  bottom = 2
+  left   = 3
+  even   = 0
+  odd    = 1
+
   BITS = [16, 8, 4, 2, 1]
 
   BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz"
+
   NEIGHBORS =
-    right:
-      even: "bc01fg45238967deuvhjyznpkmstqrwx"
-    left:
-      even: "238967debc01fg45kmstqrwxuvhjyznp"
-    top:
-      even: "p0r21436x8zb9dcf5h7kjnmqesgutwvy"
-    bottom:
-      even: "14365h7k9dcfesgujnmqp0r2twvyx8zb"
+    0: {}
+    1: {}
+    2: {}
+    3: {}
+
   BORDERS =
-    right:
-      even: "bcfguvyz"
-    left:
-      even: "0145hjnp"
-    top:
-      even: "prxz"
-    bottom:
-      even: "028b"
+    0: {}
+    1: {}
+    2: {}
+    3: {}
 
-  NEIGHBORS.bottom.odd = NEIGHBORS.left.even
-  NEIGHBORS.top.odd = NEIGHBORS.right.even
-  NEIGHBORS.left.odd = NEIGHBORS.bottom.even
-  NEIGHBORS.right.odd = NEIGHBORS.top.even
+  NEIGHBORS[bottom][odd] = NEIGHBORS[left][even]    = "238967debc01fg45kmstqrwxuvhjyznp"
+  NEIGHBORS[top][odd]    = NEIGHBORS[right][even]   = "bc01fg45238967deuvhjyznpkmstqrwx"
+  NEIGHBORS[left][odd]   = NEIGHBORS[bottom][even]  = "14365h7k9dcfesgujnmqp0r2twvyx8zb"
+  NEIGHBORS[right][odd]  = NEIGHBORS[top][even]     = "p0r21436x8zb9dcf5h7kjnmqesgutwvy"
 
-  BORDERS.bottom.odd = BORDERS.left.even
-  BORDERS.top.odd = BORDERS.right.even
-  BORDERS.left.odd = BORDERS.bottom.even
-  BORDERS.right.odd = BORDERS.top.even
+  BORDERS[bottom][odd]   = BORDERS[left][even]      = "0145hjnp"
+  BORDERS[top][odd]      = BORDERS[right][even]     = "bcfguvyz"
+  BORDERS[left][odd]     = BORDERS[bottom][even]    = "028b"
+  BORDERS[right][odd]    = BORDERS[top][even]       = "prxz"
 
   refine_interval = (interval, cd, mask) ->
     if cd and mask
@@ -47,7 +48,7 @@
   calculateAdjacent = (srcHash, dir) ->
     srcHash = srcHash.toLowerCase()
     lastChr = srcHash.charAt(srcHash.length - 1)
-    type = (if (srcHash.length % 2) then "odd" else "even")
+    type = (if (srcHash.length % 2) then odd else even)
     base = srcHash.substring(0, srcHash.length - 1)
     base = calculateAdjacent(base, dir) unless BORDERS[dir][type].indexOf(lastChr) is -1
     base + BASE32[NEIGHBORS[dir][type].indexOf(lastChr)]
