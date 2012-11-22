@@ -52,12 +52,8 @@ calculateAdjacent = (srcHash, dir) ->
 
 decodeGeoHash = (geohash) ->
   is_even = 1
-  lat = []
-  lon = []
-  lat[0] = -90.0
-  lat[1] = 90.0
-  lon[0] = -180.0
-  lon[1] = 180.0
+  lat = [-90.0, 90.0]
+  lon = [-180.0, 180.0]
   lat_err = 90.0
   lon_err = 180.0
   i = 0
@@ -84,16 +80,12 @@ decodeGeoHash = (geohash) ->
 encodeGeoHash = (latitude, longitude) ->
   is_even = 1
   i = 0
-  lat = []
-  lon = []
+  lat = [-90.0, 90.0]
+  lon = [-180.0, 180.0]
   bit = 0
   ch = 0
   precision = 12
   geohash = ""
-  lat[0] = -90.0
-  lat[1] = 90.0
-  lon[0] = -180.0
-  lon[1] = 180.0
   while geohash.length < precision
     if is_even
       mid = (lon[0] + lon[1]) / 2
