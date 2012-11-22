@@ -39,7 +39,7 @@
   BORDERS[right][odd]    = BORDERS[top][even]       = "prxz"
 
   refine_interval = (interval, cd, mask) ->
-    if cd and mask
+    if cd & mask
       interval[0] = (interval[0] + interval[1]) / 2
     else
       interval[1] = (interval[0] + interval[1]) / 2
@@ -105,7 +105,9 @@
         else
           lat[1] = mid
       is_even = not is_even
-      unless bit < 4
+      if bit < 4
+        bit++
+      else
         geohash += BASE32[ch]
         bit = 0
         ch = 0
