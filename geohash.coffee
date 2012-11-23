@@ -5,10 +5,10 @@
 
 ( (window) ->
 
-  top    = 0
-  right  = 1
-  bottom = 2
-  left   = 3
+  north    = 0
+  east  = 1
+  south = 2
+  west   = 3
   even   = 0
   odd    = 1
 
@@ -28,15 +28,15 @@
     2: {}
     3: {}
 
-  NEIGHBORS[bottom][odd] = NEIGHBORS[left][even]    = "238967debc01fg45kmstqrwxuvhjyznp"
-  NEIGHBORS[top][odd]    = NEIGHBORS[right][even]   = "bc01fg45238967deuvhjyznpkmstqrwx"
-  NEIGHBORS[left][odd]   = NEIGHBORS[bottom][even]  = "14365h7k9dcfesgujnmqp0r2twvyx8zb"
-  NEIGHBORS[right][odd]  = NEIGHBORS[top][even]     = "p0r21436x8zb9dcf5h7kjnmqesgutwvy"
+  NEIGHBORS[south][odd] = NEIGHBORS[west][even]   = "238967debc01fg45kmstqrwxuvhjyznp"
+  NEIGHBORS[north][odd] = NEIGHBORS[east][even]   = "bc01fg45238967deuvhjyznpkmstqrwx"
+  NEIGHBORS[west][odd]  = NEIGHBORS[south][even]  = "14365h7k9dcfesgujnmqp0r2twvyx8zb"
+  NEIGHBORS[east][odd]  = NEIGHBORS[north][even]  = "p0r21436x8zb9dcf5h7kjnmqesgutwvy"
 
-  BORDERS[bottom][odd]   = BORDERS[left][even]      = "0145hjnp"
-  BORDERS[top][odd]      = BORDERS[right][even]     = "bcfguvyz"
-  BORDERS[left][odd]     = BORDERS[bottom][even]    = "028b"
-  BORDERS[right][odd]    = BORDERS[top][even]       = "prxz"
+  BORDERS[south][odd]   = BORDERS[west][even]     = "0145hjnp"
+  BORDERS[north][odd]   = BORDERS[east][even]     = "bcfguvyz"
+  BORDERS[west][odd]    = BORDERS[south][even]    = "028b"
+  BORDERS[east][odd]    = BORDERS[north][even]    = "prxz"
 
   refine_interval = (interval, cd, mask) ->
     if cd & mask
@@ -55,18 +55,18 @@
 
   calculateAdjacents = (srcHash) ->
     result =
-      "center"    : srcHash
-      "top"       : calculateAdjacent(srcHash, "top")
-      "right"     : calculateAdjacent(srcHash, "right")
-      "bottom"    : calculateAdjacent(srcHash, "bottom")
-      "left"      : calculateAdjacent(srcHash, "left")
-    result["upperRight"] = calculateAdjacent(result["top"],    "right")
-    result["lowerRight"] = calculateAdjacent(result["bottom"], "right")
-    result["lowerLeft"]  = calculateAdjacent(result["bottom"], "left")
-    result["upperLeft"]  = calculateAdjacent(result["top"],    "left")
-    for posision, i in ["upperLeft", "top",    "upperRight",
-                        "left",      "center", "right",
-                        "lowerLeft", "bottom", "lowerRight"]
+      "c" : srcHash
+      "n" : calculateAdjacent(srcHash, "n")
+      "e" : calculateAdjacent(srcHash, "e")
+      "s" : calculateAdjacent(srcHash, "s")
+      "w" : calculateAdjacent(srcHash, "w")
+    result["ne"] = calculateAdjacent(result["n"], "e")
+    result["se"] = calculateAdjacent(result["s"], "e")
+    result["sw"] = calculateAdjacent(result["s"], "w")
+    result["nw"] = calculateAdjacent(result["n"], "w")
+    for posision, i in ["nw", "n", "ne",
+                        "w",  "c", "e",
+                        "sw", "s", "se"]
       result[i] = result[posision]
     result
 
