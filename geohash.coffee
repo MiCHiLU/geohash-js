@@ -75,10 +75,7 @@
         is_even = not is_even
         j++
       i++
-    lat[2] = (lat[0] + lat[1]) / 2
-    lon[2] = (lon[0] + lon[1]) / 2
-    latitude: lat
-    longitude: lon
+    [(lat[0] + lat[1]) / 2, (lon[0] + lon[1]) / 2]
 
   encodeGeoHash = (latitude, longitude) ->
     is_even = 1
