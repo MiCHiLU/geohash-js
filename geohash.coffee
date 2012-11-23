@@ -53,6 +53,23 @@
     base = calculateAdjacent(base, dir) unless BORDERS[dir][type].indexOf(lastChr) is -1
     base + BASE32[NEIGHBORS[dir][type].indexOf(lastChr)]
 
+  calculateAdjacents = (srcHash) ->
+    result =
+      "center"    : srcHash
+      "top"       : calculateAdjacent(srcHash, "top")
+      "right"     : calculateAdjacent(srcHash, "right")
+      "bottom"    : calculateAdjacent(srcHash, "bottom")
+      "left"      : calculateAdjacent(srcHash, "left")
+    result["upperRight"] = calculateAdjacent(result["top"],    "right")
+    result["lowerRight"] = calculateAdjacent(result["bottom"], "right")
+    result["lowerLeft"]  = calculateAdjacent(result["bottom"], "left")
+    result["upperLeft"]  = calculateAdjacent(result["top"],    "left")
+    for posision, i in ["upperLeft", "top",    "upperRight",
+                        "left",      "center", "right",
+                        "lowerLeft", "bottom", "lowerRight"]
+      result[i] = result[posision]
+    result
+
   decodeGeoHash = (geohash) ->
     is_even = 1
     lat = [-90.0, 90.0]
@@ -113,6 +130,8 @@
   geohash = window.geohash or (window.geohash =
     decode: decodeGeoHash
     encode: encodeGeoHash
+    adjacent: calculateAdjacent
+    adjacents: calculateAdjacents
   )
 
   return
