@@ -64,10 +64,6 @@
     result["se"] = calculateAdjacent(result["s"], "e")
     result["sw"] = calculateAdjacent(result["s"], "w")
     result["nw"] = calculateAdjacent(result["n"], "w")
-    for posision, i in ["nw", "n", "ne",
-                        "w",  "c", "e",
-                        "sw", "s", "se"]
-      result[i] = result[posision]
     result
 
   decodeGeoHash = (geohash) ->
