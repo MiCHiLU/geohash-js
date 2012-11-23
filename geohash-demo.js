@@ -88,7 +88,7 @@ GeoHashBox.prototype.plot = function () {
 
 function GeoHashBox (geohash) {
 	this.geohash = geohash;
-	this.box = decodeGeoHash(geohash);
+	this.box = geohash.decode(geohash);
 	this.corners = {};
 	this.corners.topleft = new GLatLng(this.box.latitude[0], this.box.longitude[0]);
 	this.corners.topright = new GLatLng(this.box.latitude[1], this.box.longitude[0]);
@@ -116,7 +116,7 @@ function plotGeoHash (gLatLng) {
 		return false;
 	}
 	
-	var geohash = encodeGeoHash(gLatLng.lat(), gLatLng.lng());
+	var geohash = geohash.encode(gLatLng.lat(), gLatLng.lng());
 	document.getElementById("geoHash").value = geohash;
 	var resolution = document.getElementById("hashResolution").value;
 	geohash = geohash.substr(0,resolution);
