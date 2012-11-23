@@ -5,12 +5,12 @@
 
 ( (window) ->
 
-  north    = 0
+  north = 0
   east  = 1
   south = 2
-  west   = 3
-  even   = 0
-  odd    = 1
+  west  = 3
+  even  = 0
+  odd   = 1
 
   BITS = [16, 8, 4, 2, 1]
 
@@ -56,14 +56,14 @@
   calculateAdjacents = (srcHash) ->
     result =
       "c" : srcHash
-      "n" : calculateAdjacent(srcHash, "n")
-      "e" : calculateAdjacent(srcHash, "e")
-      "s" : calculateAdjacent(srcHash, "s")
-      "w" : calculateAdjacent(srcHash, "w")
-    result["ne"] = calculateAdjacent(result["n"], "e")
-    result["se"] = calculateAdjacent(result["s"], "e")
-    result["sw"] = calculateAdjacent(result["s"], "w")
-    result["nw"] = calculateAdjacent(result["n"], "w")
+      "n" : calculateAdjacent(srcHash, north)
+      "e" : calculateAdjacent(srcHash, east)
+      "s" : calculateAdjacent(srcHash, south)
+      "w" : calculateAdjacent(srcHash, west)
+    result["ne"] = calculateAdjacent(result["n"], east)
+    result["se"] = calculateAdjacent(result["s"], east)
+    result["sw"] = calculateAdjacent(result["s"], west)
+    result["nw"] = calculateAdjacent(result["n"], west)
     result
 
   decodeGeoHash = (geohash) ->
@@ -126,7 +126,6 @@
   geohash = window.geohash or (window.geohash =
     decode: decodeGeoHash
     encode: encodeGeoHash
-    adjacent: calculateAdjacent
     adjacents: calculateAdjacents
   )
 
